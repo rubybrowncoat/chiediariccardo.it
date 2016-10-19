@@ -12,9 +12,13 @@ export const change = state => {
 
   do {
     selection = random(0, state.perle.length - 1);
-  } while (includes(exclude, selection));
+  } while (includes(exclude, selection) && state.perle.length > 5);
 
   state.history.push(selection);
   state.count++;
   state.current = state.perle[selection];
+};
+
+export const initialize = (state, { perle }) => {
+  state.perle = perle;
 };

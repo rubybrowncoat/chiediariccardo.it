@@ -21,6 +21,7 @@ import Hello from './components/Hello';
 export default {
   created() {
     window.addEventListener('keyup', this.changeAsync);
+    this.$store.dispatch('getAllPerle');
   },
   components: {
     Hello,
