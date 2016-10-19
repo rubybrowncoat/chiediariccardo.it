@@ -8,7 +8,9 @@ export const changeAsync = ({ commit, state }) => {
 
       global.ga('send', 'pageview'); // Analytics
 
-      commit('infuse');
+      setTimeout(() => {
+        commit('infuse');
+      }, 750);
     }, 1000);
   }
 };
