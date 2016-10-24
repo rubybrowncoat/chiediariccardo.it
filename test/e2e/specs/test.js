@@ -11,9 +11,9 @@ module.exports = {
     browser
       .url(devServer)
       .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.logo')
-      .assert.containsText('h1', 'Hello Vue!')
-      .assert.elementCount('p', 3)
+      .assert.elementPresent('#quote')
+      .assert.containsText('#counter', 'SAGGEZZA INFUSA 1 VOLTA')
+      .assert.elementCount('h1', 1)
       .end();
   },
 };

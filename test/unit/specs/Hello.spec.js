@@ -1,12 +1,14 @@
+import 'babel-polyfill';
+
 import Vue from 'vue';
 import Hello from 'src/components/Hello';
 
 describe('Hello.vue', () => {
-  it('should render correct contents', () => {
+  it('should render correct contents ("Ciao Ricky!")', () => {
     const vm = new Vue({
       el: document.createElement('div'),
       render: (h) => h(Hello),
     });
-    expect(vm.$el.querySelector('.hello h1').textContent).to.equal('Hello Vue!');
+    expect(vm.$el.querySelector('.hello h1').textContent).to.equal('Ciao Ricky!');
   });
 });
