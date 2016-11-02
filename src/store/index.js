@@ -16,6 +16,7 @@ const state = {
   },
   history: [],
   perle: {},
+  ratings: [],
 };
 
 const store = new Vuex.Store({

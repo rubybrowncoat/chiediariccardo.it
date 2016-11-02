@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 
 import store from './store';
 
-import App from './App';
+import App from './App.vue';
 
 Vue.config.devtools = true;
 Vue.use(VueRouter);

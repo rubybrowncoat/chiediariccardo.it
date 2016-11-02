@@ -1,11 +1,11 @@
 <template>
   <div id="app" tabindex="0" @click="changeAsync">
     <div id="quote-wrapper" v-bind:class="{ infused: isInfused }">
-  	  <div id="quote-gif" v-bind:style="{ backgroundImage: `url(${current.image})` }"></div>
+  	  <div id="quote-gif" v-bind:style="{ backgroundImage: `url(${current.image_url})` }"></div>
   	  <h1 id="quote">
-    		<span v-html="current.perla"></span>
+    		<span v-html="current.text"></span>
     		<sub style="vertical-align: sub; font-size:20px;">
-    			R.V.
+    			R.V. {{ ratings[current.id] }}
     		</sub>
   	  </h1>
     </div>
@@ -14,9 +14,11 @@
 </template>
 
 <script>
+/* global window */
+
 import { mapActions, mapGetters } from 'vuex';
 
-import Hello from './components/Hello';
+import Hello from './components/Hello.vue';
 
 export default {
   created() {
@@ -29,6 +31,7 @@ export default {
   computed: mapGetters([
     'count',
     'current',
+    'ratings',
     'recentHistory',
 
     'isInfused',
