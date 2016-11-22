@@ -1,7 +1,7 @@
 {
-  "name": "vue-project",
+  "name": "chiediariccardo.it",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Chiedi a Riccardo, dispenser di Saggezza.",
   "author": "Matsor Browncoat <prunkstation@gmail.com>",
   "private": true,
   "scripts": {
