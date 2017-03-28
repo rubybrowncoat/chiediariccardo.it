@@ -1,12 +1,12 @@
 <template>
-  <div id="app" tabindex="0" @click="changeAsync">
+  <div id="perle" tabindex="0" @click="changeAsync">
     <div id="quote-wrapper" v-bind:class="{ infused: isInfused }">
   	  <div id="quote-gif" v-bind:style="{ backgroundImage: `url(${current.image_url})` }"></div>
   	  <h1 id="quote">
     		<span v-html="current.text"></span>
-    		<sub style="vertical-align: sub; font-size:20px;">
-    			R.V. {{ ratings[current.id] }}
-    		</sub>
+    		<!--<sub style="vertical-align: sub; font-size:20px;">
+    			R.V. {{ currentRating }}
+    		</sub>-->
   	  </h1>
     </div>
     <p id="counter">Saggezza infusa {{ count }} {{ count != 1 ? 'volte' : 'volta' }}</p>
@@ -14,57 +14,46 @@
 </template>
 
 <script>
-/* global window */
+  import { mapActions, mapGetters } from 'vuex'
 
-import { mapActions, mapGetters } from 'vuex';
+  export default {
+    created() {
+      this.$store.dispatch('getAllPerle')
+    },
+    computed: {
+      ...mapGetters([
+        'count',
+        'current',
+        'ratings',
+        'recentHistory',
 
-import Hello from './components/Hello.vue';
+        'isInfused',
+      ]),
+      currentRating() {
+        const { id } = this.current
 
-export default {
-  created() {
-    window.addEventListener('keyup', this.changeAsync);
-    this.$store.dispatch('getAllPerle');
-  },
-  components: {
-    Hello,
-  },
-  computed: mapGetters([
-    'count',
-    'current',
-    'ratings',
-    'recentHistory',
+        if (id) {
+          const { cumulative, quantity } = this.ratings[id]
 
-    'isInfused',
-  ]),
-  methods: mapActions([
-    'change',
-    'changeAsync',
-  ]),
-};
+          if (cumulative && quantity) {
+            return cumulative / quantity
+          }
+        }
+
+        return ''
+      },
+    },
+    methods: mapActions([
+      'change',
+      'changeAsync',
+    ]),
+  }
 </script>
 
 <style lang="scss">
-  html {
-    height: 100%;
-  }
-
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 100%;
-    height: 100%;
-
-    background: #666;
-    font-style: italic;
-    overflow: hidden;
-    margin: 0;
-  }
+  @import '../scss/mixins.scss';
 
   #quote-wrapper {
-    font-family: 'Avenir LT W01_95 Black1475556';
-
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
@@ -79,12 +68,8 @@ export default {
   }
 
   #quote-gif {
-    position: absolute;
+    @include position(absolute, 0 0 0 0);
 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     z-index: 0;
 
     background-position: center center;
@@ -93,20 +78,19 @@ export default {
   }
 
   #quote {
-    position: absolute;
+    @include position(absolute, 50% 0 null 0);
 
-    top: 50%;
-    left: 0;
-    right: 0;
+    transform: translateY(-50%);
 
-    margin: 0;
-    padding: 1em;
+    font-family: 'Poppins', sans-serif;
 
-    font-size: 45px;
+    font-weight: 600;
+    font-size: 36px;
     line-height: 1.2em;
     text-align: center;
 
-    transform: translateY(-50%);
+    margin: 0;
+    padding: 1em;
 
     color: white;
     text-shadow: 0 0 5px rgba(0,0,0,0.25), 0 1px 1px rgba(0,0,0,0.5);

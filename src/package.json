@@ -1,0 +1,30 @@
+{
+  "name": "chiediariccardo.it",
+  "version": "1.0.0",
+  "description": "Chiedi a Riccardo, dispenser di Saggezza.",
+  "author": "Matsor Browncoat <prunkstation@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "vbuild main.js --dev --watch",
+    "build": "vbuild main.js"
+  },
+  "dependencies": {
+    "axios": "^0.15.3",
+    "lodash": "^4.17.4",
+    "node-bourbon": "^4.2.8",
+    "node-neat": "^2.0.0-beta.0",
+    "vee-validate": "^2.0.0-beta.25",
+    "vue": "^2.2.6",
+    "vue-analytics": "^3.0.1",
+    "vue-router": "^2.3.0",
+    "vuex": "^2.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.2",
+    "eslint-plugin-import": "^2.2.0",
+    "node-sass": "^4.5.1",
+    "sass-loader": "^6.0.3",
+    "webpack": "^2.3.2"
+  }
+}

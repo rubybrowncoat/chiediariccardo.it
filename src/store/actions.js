@@ -1,36 +1,66 @@
-import { getPerle, getPerlaRating } from '../api/perle';
+import Vue from 'vue';
+
+import isEmpty from 'lodash/isEmpty';
+
+import { getPerle, getPerlaRating, postPerla } from '../api/perle';
+
+import { perle, randomPerla, recentHistory, ratings } from './getters';
 
 export const change = ({ commit }) => commit('change');
 
-export const changeAsync = ({ dispatch, commit, state }) => {
+export const changeAsync = async ({ dispatch, commit, state }) => {
   if (state.infused) {
+    const selection = randomPerla(state);
+
     commit('diffuse');
+    await dispatch('getRating', { id: selection.id });
+
     setTimeout(async () => {
-      await commit('change');
-      await dispatch('getRating', { id: state.current.id });
-
+      commit('change', selection);
       commit('infuse');
-
-      global.ga('send', 'pageview'); // Analytics
+      Vue.$ga.trackEvent('perla', 'new') // Analytics
     }, 1000);
   }
 };
 
 export const getAllPerle = ({ dispatch, commit, state }) => {
-  getPerle(async (perle) => {
-    commit('initialize', { perle });
+  const currentPerle = perle(state);
 
-    await commit('change');
-    await dispatch('getRating', { id: state.current.id });
+  if (!currentPerle.length) {
+    return getPerle(async (perle) => {
+      commit('initialize', { perle });
 
-    setTimeout(() => {
-      commit('infuse');
-    }, 750);
-  });
+      const selection = randomPerla(state);
+
+      await dispatch('getRating', { id: selection.id });
+      commit('change', selection);
+
+      setTimeout(() => {
+        commit('infuse');
+      }, 750);
+    });
+  }
 };
 
-export const getRating = ({ commit }, { id }) => {
-  getPerlaRating(id, (rating) => {
-    commit('setRating', { id, rating });
+export const getRating = ({ commit, state }, { id }) => {
+  let currentRating = ratings(state)[id];
+
+  if (!currentRating) {
+    return getPerlaRating(id, (rating) => {
+      commit('setRating', { id, rating });
+    });
+  }
+};
+
+export const postNewPerla = ({ commit, state }, data) => {
+  const perla = Object.assign({}, data);
+
+  return postPerla(perla, (id) => {
+    commit('addPerla', {
+      id,
+      image_url: perla.image_url,
+      text: perla.text,
+      slug: perla.slug,
+    });
   });
 };

@@ -10,13 +10,10 @@ Vue.use(Vuex);
 const state = {
   count: 0,
   infused: false,
-  current: {
-    perla: '',
-    image: '',
-  },
+  current: false,
   history: [],
-  perle: {},
-  ratings: [],
+  perle: [],
+  ratings: {},
 };
 
 const store = new Vuex.Store({

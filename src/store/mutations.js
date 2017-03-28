@@ -1,27 +1,19 @@
-import { includes, random } from 'lodash';
-
-import { recentHistory } from './getters';
-
 /* eslint-disable no-param-reassign */
 export const diffuse = (state) => { state.infused = false; };
 export const infuse = (state) => { state.infused = true; };
 
-export const change = (state) => {
-  const exclude = recentHistory(state);
-  let selection = -1;
-
-  do {
-    selection = random(0, state.perle.length - 1);
-  } while (includes(exclude, selection) && state.perle.length > 5);
-
-  state.history.push(selection);
+export const change = (state, selection) => {
+  state.history.push(selection.id);
   state.count += 1;
-  state.current = state.perle[selection];
+  state.current = selection;
 };
 
 export const setRating = (state, { id, rating }) => {
-  console.log(id, rating);
   state.ratings[id] = rating;
+};
+
+export const addPerla = (state, perla) => {
+  state.perle.push(perla);
 };
 
 export const initialize = (state, { perle }) => {

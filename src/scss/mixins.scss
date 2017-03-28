@@ -1,0 +1,56 @@
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+@mixin hide-text() {
+  overflow: hidden;
+  text-indent: 101%;
+  white-space: nowrap;
+}
+
+@mixin size($value) {
+  $width: nth($value, 1);
+  $height: $width;
+
+  @if length($value) > 1 {
+    $height: nth($value, 2);
+  }
+
+  @if is-size($height) {
+    height: $height;
+  } @else {
+    @warn "`#{$height}` is not a valid length for the `$height` parameter in the `size` mixin.";
+  }
+
+  @if is-size($width) {
+    width: $width;
+  } @else {
+    @warn "`#{$width}` is not a valid length for the `$width` parameter in the `size` mixin.";
+  }
+}
+
+@mixin position($position: relative, $coordinates: null null null null) {
+  @if type-of($position) == list {
+    $coordinates: $position;
+    $position: relative;
+  }
+
+  $offsets: (
+    top: nth($coordinates, 1),
+    right: nth($coordinates, 2),
+    bottom: nth($coordinates, 3),
+    left: nth($coordinates, 4)
+  );
+
+  position: $position;
+
+  @each $offset, $value in $offsets {
+    @if is-length($value) {
+      #{$offset}: $value;
+    }
+  }
+}
